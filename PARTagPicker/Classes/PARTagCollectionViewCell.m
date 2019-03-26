@@ -30,22 +30,22 @@
 
 - (void)showAsChosen:(BOOL)chosen {
     if (chosen) {
-        self.tagLabel.textColor = self.tagColorRef.chosenTagTextColor;
-        self.backgroundColor = self.tagColorRef.chosenTagBackgroundColor;
-        self.layer.borderColor = self.tagColorRef.chosenTagBorderColor.CGColor;
+        self.tagLabel.textColor = self.tagObject.colorReference.chosenTagTextColor;
+        self.backgroundColor = self.tagObject.colorReference.chosenTagBackgroundColor;
+        self.layer.borderColor = self.tagObject.colorReference.chosenTagBorderColor.CGColor;
     } else {
-        self.tagLabel.textColor = self.tagColorRef.defaultTagTextColor;
-        self.backgroundColor = self.tagColorRef.defaultTagBackgroundColor;
-        self.layer.borderColor = self.tagColorRef.defaultTagBorderColor.CGColor;
+        self.tagLabel.textColor = self.tagObject.colorReference.defaultTagTextColor;
+        self.backgroundColor = self.tagObject.colorReference.defaultTagBackgroundColor;
+        self.layer.borderColor = self.tagObject.colorReference.defaultTagBorderColor.CGColor;
     }
 }
 
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
     if (selected) {
-        self.tagLabel.textColor = self.tagColorRef.highlightedTagTextColor;
-        self.backgroundColor = self.tagColorRef.highlightedTagBackgroundColor;
-        self.layer.borderColor = self.tagColorRef.highlightedTagBorderColor.CGColor;
+        self.tagLabel.textColor = self.tagObject.colorReference.highlightedTagTextColor;
+        self.backgroundColor = self.tagObject.colorReference.highlightedTagBackgroundColor;
+        self.layer.borderColor = self.tagObject.colorReference.highlightedTagBorderColor.CGColor;
         [self.phantomTextField becomeFirstResponder];
     } else {
         [self showAsChosen:YES];
@@ -58,5 +58,10 @@
     [self setSelected:NO];
 }
 
+- (void)configure:(PARTag *)tag chosen:(BOOL)chosen {
+    self.tagObject = tag;
+    self.tagLabel.text = tag.label;
+    [self showAsChosen:chosen];
+}
 
 @end

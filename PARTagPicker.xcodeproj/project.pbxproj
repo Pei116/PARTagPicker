@@ -24,6 +24,7 @@
 		1CF87EFA1B5EED0E0007165E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CF87EF91B5EED0E0007165E /* Images.xcassets */; };
 		1CF87EFD1B5EED0E0007165E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CF87EFB1B5EED0E0007165E /* LaunchScreen.xib */; };
 		1CF87F091B5EED0E0007165E /* PARTagPickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF87F081B5EED0E0007165E /* PARTagPickerTests.m */; };
+		FC8D06A322489494009CA474 /* PARTag.m in Sources */ = {isa = PBXBuildFile; fileRef = FC8D06A222489494009CA474 /* PARTag.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,8 @@
 		1CF87F021B5EED0E0007165E /* PARTagPickerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PARTagPickerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CF87F071B5EED0E0007165E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1CF87F081B5EED0E0007165E /* PARTagPickerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PARTagPickerTests.m; sourceTree = "<group>"; };
+		FC8D06A122489494009CA474 /* PARTag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PARTag.h; path = Classes/PARTag.h; sourceTree = "<group>"; };
+		FC8D06A222489494009CA474 /* PARTag.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PARTag.m; path = Classes/PARTag.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +194,8 @@
 			children = (
 				1C8102D91B6A99AA00AC87B3 /* PARTagColorReference.h */,
 				1C8102DA1B6A99AA00AC87B3 /* PARTagColorReference.m */,
+				FC8D06A122489494009CA474 /* PARTag.h */,
+				FC8D06A222489494009CA474 /* PARTag.m */,
 			);
 			name = "Custom Objects";
 			sourceTree = "<group>";
@@ -244,6 +249,7 @@
 				TargetAttributes = {
 					1CF87EE81B5EED0E0007165E = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = WJYN54256Y;
 					};
 					1CF87F011B5EED0E0007165E = {
 						CreatedOnToolsVersion = 6.4;
@@ -308,6 +314,7 @@
 				1CF87EF21B5EED0E0007165E /* AppDelegate.m in Sources */,
 				1C8102D51B6A999C00AC87B3 /* PARTagCollectionViewCell.m in Sources */,
 				1CF87EEF1B5EED0E0007165E /* main.m in Sources */,
+				FC8D06A322489494009CA474 /* PARTag.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,7 +434,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WJYN54256Y;
 				INFOPLIST_FILE = PARTagPicker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -439,7 +446,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WJYN54256Y;
 				INFOPLIST_FILE = PARTagPicker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

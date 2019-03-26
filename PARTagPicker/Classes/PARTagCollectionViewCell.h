@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PARTag.h"
 
 @class PARTagCollectionViewCell, PARBackspaceTextField, PARTagColorReference;
 
@@ -24,9 +25,10 @@
 @property (weak, nonatomic) IBOutlet PARBackspaceTextField *phantomTextField;
 @property (weak, nonatomic) id<PARTagCollectionViewCellDelegate> delegate;
 
-@property (strong, nonatomic) PARTagColorReference *tagColorRef;
+@property (strong, nonatomic) PARTag *tagObject;
 
 
 - (void)showAsChosen:(BOOL)chosen;
+- (void)configure:(PARTag *)tag chosen:(BOOL)chosen;
 
 @end

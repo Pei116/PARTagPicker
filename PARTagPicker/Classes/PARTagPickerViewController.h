@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PARTag.h"
 
 @class PARTagPickerViewController, PARTagColorReference;
 
@@ -46,18 +47,24 @@ typedef NS_ENUM(NSUInteger, PARTagPickerVisibilityState) {
 
 @end
 
+@protocol PARTagPickerDataSource <NSObject>
+
+- (PARTag *)newTagWithLabel:(NSString *)label;
+
+@end
+
 /**
  *  The main component to interact with in the PARTagPicker pod. This is a view controller that will manage the tags and collection views that hold them.
  */
 @interface PARTagPickerViewController : UIViewController
 
 /**
- *  Array of strings.
+ *  Array of tags.
  */
 @property (nonatomic, strong) NSArray *allTags;
 
 /**
- *  Array of strings.
+ *  Array of tags.
  */
 @property (nonatomic, strong) NSMutableArray *chosenTags;
 
@@ -72,6 +79,7 @@ typedef NS_ENUM(NSUInteger, PARTagPickerVisibilityState) {
 @property (nonatomic) PARTagPickerVisibilityState visibilityState;
 
 @property (nonatomic, weak) id<PARTagPickerDelegate> delegate;
+@property (nonatomic, weak) id<PARTagPickerDataSource> dataSource;
 
 //TODO: conform to UIAppearance
 
@@ -95,7 +103,7 @@ typedef NS_ENUM(NSUInteger, PARTagPickerVisibilityState) {
 /**
  *  See PARTagColorReference for more details. This is a class of object that makes it easy to change the color of the tag cells.
  */
-@property (nonatomic, strong) PARTagColorReference *tagColorRef;
+//@property (nonatomic, strong) PARTagColorReference *tagColorRef;
 
 /**
  *  The default text to have as placeholder text in each tag cell. Default value is @"Add a tag".
