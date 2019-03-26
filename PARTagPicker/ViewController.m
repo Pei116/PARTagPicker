@@ -9,8 +9,9 @@
 #import "ViewController.h"
 #import "PARTagPickerViewController.h"
 #import "PARTagColorReference.h"
+#import "PARTag.h"
 
-@interface ViewController () <PARTagPickerDelegate>
+@interface ViewController () <PARTagPickerDelegate, PARTagPickerDataSource>
 
 @property (nonatomic, strong) PARTagPickerViewController *tagPicker;
 @property (nonatomic, strong) NSArray *allTags;
@@ -29,8 +30,16 @@
 
 - (void)initDummyData {
     //Data for demo project
-    self.allTags = @[@"one fish", @"two fish", @"red fish", @"blue fish", @"the cat in the hat", @"Seuss"];
-    self.preChosenTags = @[@"in a box", @"with a fox", @"thing 1", @"thing 2"];
+    NSMutableArray *tags = [NSMutableArray array];
+    for (NSString *tag in @[@"one fish", @"two fish", @"red fish", @"blue fish", @"the cat in the hat", @"Seuss"]) {
+        [tags addObject:[[PARTag alloc] initWith:tag]];
+    }
+    self.allTags = [tags copy];
+    tags = [NSMutableArray array];
+    for (NSString *tag in @[@"in a box", @"with a fox", @"thing 1", @"thing 2"]) {
+        [tags addObject:[[PARTag alloc] initWith:tag]];
+    }
+    self.preChosenTags = [tags copy];
 }
 
 - (void)addTagPickerToView {
@@ -39,13 +48,14 @@
     self.tagPicker.view.frame = CGRectMake(0, 20, CGRectGetWidth(self.view.bounds), COLLECTION_VIEW_HEIGHT); //78 is the fully expanded height.
     self.tagPicker.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.tagPicker.delegate = self;
+    self.tagPicker.dataSource = self;
     self.tagPicker.allTags = self.allTags;
     
     //optionally allow new tags to be made
-    //self.tagPicker.allowsNewTags = YES;
+    self.tagPicker.allowsNewTags = YES;
     
     //optionally set some chosen tags
-    //self.tagPicker.chosenTags = [self.preChosenTags mutableCopy];
+    self.tagPicker.chosenTags = [self.preChosenTags mutableCopy];
     
     //optionally use custom colors using PARTagColorReference
     //[self useCustomColors];
@@ -57,7 +67,7 @@
     //self.tagPicker.placeholderText = @"";
     
     //optionally disable the tap to remove tags
-    //self.tagPicker.tapToEraseTags = NO;
+    self.tagPicker.tapToEraseTags = NO;
     
     //optionally disable all editing
     //self.tagPicker.textfieldEnabled = NO;
@@ -83,8 +93,6 @@
     myColors.highlightedTagBorderColor = [UIColor magentaColor];
     myColors.highlightedTagBackgroundColor = [UIColor yellowColor];
     myColors.highlightedTagTextColor = [UIColor blackColor];
-    
-    self.tagPicker.tagColorRef = myColors;
 }
 
 #pragma mark - PARTagPickerDelegate
@@ -133,6 +141,17 @@
 }
 - (IBAction)clearAll:(id)sender {
     [_tagPicker setChosenTags:[@[] mutableCopy]];
+}
+
+- (PARTag *)newTagWithLabel:(NSString *)label {
+    UIColor *randomColor = [[UIColor alloc] initWithRed:(CGFloat)(arc4random_uniform(256) / 255.0)
+                                                  green:(CGFloat)(arc4random_uniform(256) / 255.0)
+                                                   blue:(CGFloat)(arc4random_uniform(256) / 255.0)
+                                                  alpha:1.0];
+    PARTagColorReference *colorRef = [[PARTagColorReference alloc] init];
+    colorRef.chosenTagBackgroundColor = randomColor;
+    colorRef.chosenTagBorderColor = randomColor;
+    return [[PARTag alloc] initWith:label color:colorRef];
 }
 
 @end
