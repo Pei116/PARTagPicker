@@ -160,9 +160,15 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
     [self.availableTagCollectionView reloadData];
 }
 
-- (PARTag *)tagSimilarToString:(NSString *)tag {
+- (PARTag *)tagSimilarToStringFromAvailable:(NSString *)tag {
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"self.label LIKE %@", tag];
     NSArray *similarTags = [self.availableTags filteredArrayUsingPredicate:pred];
+    return similarTags.firstObject;
+}
+
+- (PARTag *)tagSimilarToStringFromChosen:(NSString *)tag {
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"self.label LIKE %@", tag];
+    NSArray *similarTags = [self.chosenTags filteredArrayUsingPredicate:pred];
     return similarTags.firstObject;
 }
 
@@ -239,8 +245,10 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
         }
         [self.chosenTags removeObjectAtIndex:indexPath.row];
         [self.chosenTagCollectionView deleteItemsAtIndexPaths:@[indexPath]];
-        if ([self.delegate respondsToSelector:@selector(chosenTagsWereUpdatedInTagPicker:)]) {
-            [self.delegate chosenTagsWereUpdatedInTagPicker:self];
+        if ([self.delegate respondsToSelector:@selector(chosenTagsWereUpdatedInTagPicker:added:removed:)]) {
+            [self.delegate chosenTagsWereUpdatedInTagPicker:self
+                                                      added:nil
+                                                    removed:[NSArray arrayWithObject:selectedTag]];
         }
         if (self.chosenTags.count == 0) {
             [self addPlaceholderTextToCellTextField];
@@ -256,8 +264,10 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
     [self.chosenTagCollectionView insertItemsAtIndexPaths:@[addedPath]];
     [self.chosenTagCollectionView scrollToItemAtIndexPath:addedPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
     [self animateBottomRowCellToTopFromIndexPath:indexPath];
-    if ([self.delegate respondsToSelector:@selector(chosenTagsWereUpdatedInTagPicker:)]) {
-        [self.delegate chosenTagsWereUpdatedInTagPicker:self];
+    if ([self.delegate respondsToSelector:@selector(chosenTagsWereUpdatedInTagPicker:added:removed:)]) {
+        [self.delegate chosenTagsWereUpdatedInTagPicker:self
+                                                  added:[NSArray arrayWithObject:selectedTag]
+                                                removed:nil];
     }
 }
 
@@ -383,12 +393,12 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
         cell.tagTextField.placeholder = self.placeholderText;
         
         if (self.allowsNewTags) {
-            PARTag *possibleMatch = [self tagSimilarToString:text];
-            if (possibleMatch) {
-                NSInteger whereItIs = [self.filteredAvailableTags indexOfObject:possibleMatch];
+            PARTag *possibleMatchFromAvailable = [self tagSimilarToStringFromAvailable:text];
+            if (possibleMatchFromAvailable) {
+                NSInteger whereItIs = [self.filteredAvailableTags indexOfObject:possibleMatchFromAvailable];
                 NSIndexPath *pathOfIt = [NSIndexPath indexPathForItem:whereItIs inSection:0];
                 [self addChosenTagFromIndexPath:pathOfIt];
-            } else {
+            } else if ([self tagSimilarToStringFromChosen:text] == nil) {
                 PARTag *newTag = nil;
                 if ([self.dataSource respondsToSelector:@selector(newTagWithLabel:)]) {
                     newTag = [self.dataSource newTagWithLabel:text];
@@ -401,8 +411,10 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
                 [self.chosenTags addObject:newTag];
                 NSIndexPath *pathToMake = [NSIndexPath indexPathForItem:self.chosenTags.count - 1 inSection:0];
                 [self.chosenTagCollectionView insertItemsAtIndexPaths:@[pathToMake]];
-                if ([self.delegate respondsToSelector:@selector(chosenTagsWereUpdatedInTagPicker:)]) {
-                    [self.delegate chosenTagsWereUpdatedInTagPicker:self];
+                if ([self.delegate respondsToSelector:@selector(chosenTagsWereUpdatedInTagPicker:added:removed:)]) {
+                    [self.delegate chosenTagsWereUpdatedInTagPicker:self
+                                                              added:[NSArray arrayWithObject:newTag]
+                                                            removed:nil];
                 }
             }
         } else {

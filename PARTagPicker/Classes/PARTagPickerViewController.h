@@ -36,7 +36,7 @@ typedef NS_ENUM(NSUInteger, PARTagPickerVisibilityState) {
  *
  *  @param tagPicker The TagPickerViewController who sent the message
  */
-- (void)chosenTagsWereUpdatedInTagPicker:(PARTagPickerViewController *)tagPicker;
+- (void)chosenTagsWereUpdatedInTagPicker:(PARTagPickerViewController *)tagPicker added:(NSArray<PARTag *>*)added removed:(NSArray<PARTag *>*)removed;
 
 @optional
 /**
