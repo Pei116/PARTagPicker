@@ -392,13 +392,13 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
         cell.tagTextField.text = @"";
         cell.tagTextField.placeholder = self.placeholderText;
         
-        if (self.allowsNewTags) {
+        if (self.allowsNewTags && [self tagSimilarToStringFromChosen:text] == nil) {
             PARTag *possibleMatchFromAvailable = [self tagSimilarToStringFromAvailable:text];
             if (possibleMatchFromAvailable) {
                 NSInteger whereItIs = [self.filteredAvailableTags indexOfObject:possibleMatchFromAvailable];
                 NSIndexPath *pathOfIt = [NSIndexPath indexPathForItem:whereItIs inSection:0];
                 [self addChosenTagFromIndexPath:pathOfIt];
-            } else if ([self tagSimilarToStringFromChosen:text] == nil) {
+            } else {
                 PARTag *newTag = nil;
                 if ([self.dataSource respondsToSelector:@selector(newTagWithLabel:)]) {
                     newTag = [self.dataSource newTagWithLabel:text];
