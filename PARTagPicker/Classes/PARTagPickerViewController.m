@@ -81,7 +81,13 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
     _allTags = allTags;
     self.availableTags = [allTags mutableCopy];
     [self transferChosenTagsWithNewAllTags];
-    [self.availableTags removeObjectsInArray:self.chosenTags];
+    NSMutableArray *tagsToDiscard = [NSMutableArray array];
+    for (PARTag *tag in self.availableTags) {
+        if ([self.chosenTags filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.label LIKE %@", tag.label]].count > 0) {
+            [tagsToDiscard addObject:tag];
+        }
+    }
+    [self.availableTags removeObjectsInArray:tagsToDiscard];
     [self filterTagsFromSearchString];
 }
 
@@ -89,7 +95,13 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
     _chosenTags = chosenTags;
     [self.chosenTagCollectionView reloadData];
     self.availableTags = [self.allTags mutableCopy];
-    [self.availableTags removeObjectsInArray: chosenTags];
+    NSMutableArray *tagsToDiscard = [NSMutableArray array];
+    for (PARTag *tag in self.availableTags) {
+        if ([self.chosenTags filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.label LIKE %@", tag.label]].count > 0) {
+            [tagsToDiscard addObject:tag];
+        }
+    }
+    [self.availableTags removeObjectsInArray:tagsToDiscard];
     [self filterTagsFromSearchString];
 }
 
@@ -392,7 +404,12 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
         cell.tagTextField.text = @"";
         cell.tagTextField.placeholder = self.placeholderText;
         
-        if (self.allowsNewTags && [self tagSimilarToStringFromChosen:text] == nil) {
+        if (self.allowsNewTags) {
+            if ([self tagSimilarToStringFromChosen:text] != nil) {
+                [self filterTagsFromSearchString];
+                return NO;
+            }
+            
             PARTag *possibleMatchFromAvailable = [self tagSimilarToStringFromAvailable:text];
             if (possibleMatchFromAvailable) {
                 NSInteger whereItIs = [self.filteredAvailableTags indexOfObject:possibleMatchFromAvailable];
@@ -406,8 +423,10 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
                     newTag = [[PARTag alloc] initWith:text];
                 }
                 if (newTag == nil) {
+                    [self filterTagsFromSearchString];
                     return NO;
                 }
+                
                 [self.chosenTags addObject:newTag];
                 NSIndexPath *pathToMake = [NSIndexPath indexPathForItem:self.chosenTags.count - 1 inSection:0];
                 [self.chosenTagCollectionView insertItemsAtIndexPaths:@[pathToMake]];

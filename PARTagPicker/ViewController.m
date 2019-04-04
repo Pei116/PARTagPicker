@@ -36,7 +36,7 @@
     }
     self.allTags = [tags copy];
     tags = [NSMutableArray array];
-    for (NSString *tag in @[@"in a box", @"with a fox", @"thing 1", @"thing 2"]) {
+    for (NSString *tag in @[@"in a box", @"with a fox", @"thing 1", @"thing 2", @"blue fish"]) {
         [tags addObject:[[PARTag alloc] initWith:tag]];
     }
     self.preChosenTags = [tags copy];
