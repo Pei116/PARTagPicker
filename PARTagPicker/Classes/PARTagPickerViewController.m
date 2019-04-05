@@ -92,8 +92,25 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
 }
 
 - (void)setChosenTags:(NSMutableArray *)chosenTags {
+    NSMutableArray *oldSelectedTags = [NSMutableArray array];
+    if (_chosenTags != nil && _chosenTags.count > 0) {
+        for (NSIndexPath *indexPath in self.chosenTagCollectionView.indexPathsForSelectedItems) {
+            PARTag *tag = [_chosenTags objectAtIndex:indexPath.row];
+            [oldSelectedTags addObject:tag];
+        }
+    }
+    
     _chosenTags = chosenTags;
+
     [self.chosenTagCollectionView reloadData];
+    for (PARTag *tag in oldSelectedTags) {
+        PARTag *newTag = [self tagSimilarToStringFromChosen:tag.label];
+        if (newTag != nil) {
+            NSUInteger index = [self.chosenTags indexOfObject:newTag];
+            [self.chosenTagCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        }
+    }
+
     self.availableTags = [self.allTags mutableCopy];
     NSMutableArray *tagsToDiscard = [NSMutableArray array];
     for (PARTag *tag in self.availableTags) {

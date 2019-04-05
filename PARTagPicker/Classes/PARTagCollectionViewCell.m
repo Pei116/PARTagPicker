@@ -55,7 +55,10 @@
 
 - (void)prepareForReuse {
     [super prepareForReuse];
-    [self setSelected:NO];
+    
+    self.tagLabel.textColor = UIColor.blackColor;
+    self.backgroundColor = UIColor.grayColor;
+    self.layer.borderColor = UIColor.grayColor.CGColor;
 }
 
 - (void)configure:(PARTag *)tag chosen:(BOOL)chosen {
