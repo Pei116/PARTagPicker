@@ -45,6 +45,8 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
         self.textfieldEnabled = YES;
         self.shouldAutomaticallyChangeVisibilityState = YES;
         self.placeholderText = @"Add a tag";
+        self.placeholderTextForAvailable = @"Available tags go here";
+        self.placeholderTextColorForAvailable = [UIColor whiteColor];
         self.textfieldPlaceholderTextColor = [UIColor grayColor];
         self.textfieldRegularTextColor = [UIColor whiteColor];
     }
@@ -304,7 +306,21 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (collectionView == self.availableTagCollectionView) {
-        return self.filteredAvailableTags.count;
+        NSInteger count = self.filteredAvailableTags.count;
+        if (count == 0) {
+            UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.availableTagCollectionView.bounds.size.width, self.availableTagCollectionView.bounds.size.height)];
+            messageLabel.text = self.placeholderTextForAvailable;
+            messageLabel.textColor = self.placeholderTextColorForAvailable;
+            messageLabel.textAlignment = NSTextAlignmentCenter;
+            messageLabel.font = [messageLabel.font fontWithSize:12.0];
+            messageLabel.numberOfLines = 0;
+            [messageLabel sizeToFit];
+            
+            self.availableTagCollectionView.backgroundView = messageLabel;
+        } else {
+            self.availableTagCollectionView.backgroundView = nil;
+        }
+        return count;
     } else if (collectionView == self.chosenTagCollectionView) {
         return self.chosenTags.count + 1;
     } else {

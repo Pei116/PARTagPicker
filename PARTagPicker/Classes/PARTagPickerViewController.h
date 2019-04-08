@@ -111,6 +111,12 @@ typedef NS_ENUM(NSUInteger, PARTagPickerVisibilityState) {
 @property (nonatomic, strong) NSString *placeholderText;
 
 /**
+ *  The default text & color as placeholder text in available tags view. Default message is @"Available tags go here".
+ */
+@property (nonatomic, strong) NSString *placeholderTextForAvailable;
+@property (nonatomic, strong) UIColor *placeholderTextColorForAvailable;
+
+/**
  *  Defaults to YES. If set to NO, tapping a cell will just select it (not delete it).
  */
 @property (nonatomic) BOOL tapToEraseTags;
