@@ -28,4 +28,24 @@
     return similarTags.firstObject;
 }
 
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+    
+    if (![object isKindOfClass:[PARTag class]]) {
+        return NO;
+    }
+    
+    return [self isEqualToTag:(PARTag *)object];
+}
+
+- (BOOL)isEqualToTag:(PARTag *)tag {
+    return self.label == tag.label;
+}
+
+- (NSUInteger)hash {
+    return [self.label hash] ^ [self.colorReference hash];
+}
+
 @end

@@ -85,7 +85,7 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
     [self transferChosenTagsWithNewAllTags];
     NSMutableArray *tagsToDiscard = [NSMutableArray array];
     for (PARTag *tag in self.availableTags) {
-        if ([self.chosenTags filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.label LIKE %@", tag.label]].count > 0) {
+        if ([self.chosenTags filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self == %@", tag]].count > 0) {
             [tagsToDiscard addObject:tag];
         }
     }
@@ -116,7 +116,7 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
     self.availableTags = [self.allTags mutableCopy];
     NSMutableArray *tagsToDiscard = [NSMutableArray array];
     for (PARTag *tag in self.availableTags) {
-        if ([self.chosenTags filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.label LIKE %@", tag.label]].count > 0) {
+        if ([self.chosenTags filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self == %@", tag]].count > 0) {
             [tagsToDiscard addObject:tag];
         }
     }
