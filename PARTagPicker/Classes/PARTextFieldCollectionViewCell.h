@@ -17,6 +17,7 @@
 
 @optional
 - (void)editingInTextFieldCollectionViewCell:(PARTextFieldCollectionViewCell *)cell becameActive:(BOOL)active;
+- (BOOL)shouldAllowInTextFieldCollectionViewCell:(PARTextFieldCollectionViewCell *)cell newCharacters:(NSString *)string;
 
 @end
 

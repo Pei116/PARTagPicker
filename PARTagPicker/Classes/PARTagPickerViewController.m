@@ -505,11 +505,21 @@ static NSString * const PARTextFieldCollectionViewCellIdentifier = @"PARTextFiel
     if (!active && [self.chosenTagCollectionView indexPathsForSelectedItems].count > 0) {
         return;
     }
+    if (!active && self.addNewWhenDismissingKeyboard) {
+        [self shouldReturnFromTextFieldCollectionViewCell:cell];
+    }
     if (active) {
         [self setVisibilityState:PARTagPickerVisibilityStateTopAndBottom];
     } else if (self.visibilityState != PARTagPickerVisibilityStateHidden) {
         [self setVisibilityState:PARTagPickerVisibilityStateTopOnly];
     }
+}
+
+- (BOOL)shouldAllowInTextFieldCollectionViewCell:(PARTextFieldCollectionViewCell *)cell newCharacters:(NSString *)string {
+    if (self.allowedCharacters == nil) {
+        return YES;
+    }
+    return [string rangeOfCharacterFromSet:[self.allowedCharacters invertedSet]].location == NSNotFound;
 }
 
 #pragma mark - RBBackspaceTextFieldDelegate

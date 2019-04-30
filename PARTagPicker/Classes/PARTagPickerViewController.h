@@ -99,6 +99,14 @@ typedef NS_ENUM(NSUInteger, PARTagPickerVisibilityState) {
  *  Setting fonts on all tag cells. Changes take place only after the views are reloaded. (Which you can force using reloadCollectionViews)
  */
 @property (nonatomic, strong) UIFont *font;
+/**
+ *  Setting characters enabeld
+ */
+@property (nonatomic, strong) NSCharacterSet *allowedCharacters;
+/**
+ *  Setting whether it will add a tag when dismissing keyboard
+ */
+@property (nonatomic) BOOL addNewWhenDismissingKeyboard;
 
 /**
  *  See PARTagColorReference for more details. This is a class of object that makes it easy to change the color of the tag cells.

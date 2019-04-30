@@ -50,6 +50,8 @@
     self.tagPicker.delegate = self;
     self.tagPicker.dataSource = self;
     self.tagPicker.allTags = self.allTags;
+    self.tagPicker.allowedCharacters = [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"];
+    self.tagPicker.addNewWhenDismissingKeyboard = YES;
     
     //optionally allow new tags to be made
     self.tagPicker.allowsNewTags = YES;

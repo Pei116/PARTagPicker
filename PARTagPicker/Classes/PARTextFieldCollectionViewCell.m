@@ -31,6 +31,8 @@
     }
 }
 
+#pragma mark - UITextFieldDelegate
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (self.delegate) {
         return [self.delegate shouldReturnFromTextFieldCollectionViewCell:self];
@@ -54,6 +56,13 @@
     if ([self.delegate respondsToSelector:@selector(editingInTextFieldCollectionViewCell:becameActive:)]) {
         [self.delegate editingInTextFieldCollectionViewCell:self becameActive:NO];
     }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([self.delegate respondsToSelector:@selector(shouldAllowInTextFieldCollectionViewCell:newCharacters:)]) {
+        return [self.delegate shouldAllowInTextFieldCollectionViewCell:self newCharacters:string];
+    }
+    return YES;
 }
 
 @end
